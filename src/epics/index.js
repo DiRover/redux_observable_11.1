@@ -10,17 +10,17 @@ export const changeSearchEpic = action$ => action$.pipe(
     map(o => o.payload.search.trim()),
     filter(o => o !== ''),
     debounceTime(100),
-    map(o => searchSkillsRequest(o))
+    map(o => searchSkillsRequest(o))//экшен изменения поля и создание экшена для отправления запроса
 )
 
-export const searchSkillsEpic = action$ => action$.pipe(
+export const searchSkillsEpic = action$ => action$.pipe(// отправка запроса
     ofType(SEARCH_SKILLS_REQUEST),
     map(o => (o.payload.search)),
     map(o => new URLSearchParams({ q: o })),
     tap(o => console.log(o)),
     switchMap(o => ajax.getJSON(`${process.env.REACT_APP_SEARCH_URL}?${o}`).pipe(
-        retry(3),
-        map(o => searchSkillsSuccess(o)),
-        catchError(e => of(searchSkillsFailure(e))),
+        retry(3),// 3 попытки
+        map(o => searchSkillsSuccess(o)),//если успешно
+        catchError(e => of(searchSkillsFailure(e))),//если неуспешно
     )),
 );
