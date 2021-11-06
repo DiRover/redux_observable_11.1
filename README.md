@@ -6,3 +6,4 @@
 1. При пустой форме ввода список не отображается (**в state он должен быть пустым!**)
 2. Выводится сообщение: "Type something to search..."
 
+Server API https://unionserver.herokuapp.com/api/search
